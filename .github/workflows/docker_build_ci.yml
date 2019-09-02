@@ -131,9 +131,9 @@ jobs:
             -v $(pwd)/README.md:/data/README.md \
             -e DOCKERHUB_USERNAME=$(cat DOCKERHUB_USER) \
             -e DOCKERHUB_PASSWORD=${{ secrets.DOCKERHUB_PASSWORD }} \
-            -e DOCKERHUB_REPO_PREFIX=$(cat APP_NAME) \
+            -e DOCKERHUB_REPO_PREFIX=$(cat DOCKERHUB_USER) \
             -e DOCKERHUB_REPO_NAME=$(cat APP_NAME) \
-            devmtl/readme-dockerhub:stable
+            devmtl/readme-to-dockerhub:stable
 
   Job3:
     needs: job1
