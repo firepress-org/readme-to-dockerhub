@@ -127,6 +127,7 @@ jobs:
           cat Dockerfile | grep VERSION= | head -n 1 | grep -o '".*"' | sed 's/"//g' > VERSION
           git rev-parse --short HEAD > SHORT_COMMIT_HASH
           echo "CI says $(cat APP_NAME):$(cat VERSION) $(cat SHORT_COMMIT_HASH)" > NOTI_MESSAGE
+          echo "NOTI_MESSAGE is... $NOTI_MESSAGE"
 
       - name: Push README to dockerhub description
         run: |
@@ -143,9 +144,9 @@ jobs:
           docker run --rm \
             devmtl/noti:stable \
             sh -c \
-            'NOTI_SLACK_TOKEN=$(cat ${TOKEN_SLACK}) \
-            NOTI_SLACK_CHANNEL=github-actions \
-            noti -k -m $(cat NOTI_MESSAGE)'
+            'NOTI_SLACK_TOKEN="$(cat ${TOKEN_SLACK})" \
+            NOTI_SLACK_CHANNEL="github-actions" \
+            noti -k -m "$(cat NOTI_MESSAGE)"'
 
   Job3:
     needs: job1
