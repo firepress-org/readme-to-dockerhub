@@ -128,7 +128,7 @@ jobs:
           cat Dockerfile | grep APP_NAME= | head -n 1 | grep -o '".*"' | sed 's/"//g' > APP_NAME
           cat Dockerfile | grep VERSION= | head -n 1 | grep -o '".*"' | sed 's/"//g' > VERSION
           git rev-parse --short HEAD > SHORT_COMMIT_HASH
-          echo "$(cat APP_NAME):$(cat VERSION):$(cat SHORT_COMMIT_HASH)" > NOTI_MESSAGE
+          echo "$(cat APP_NAME):$(cat VERSION) / $(cat SHORT_COMMIT_HASH)" > NOTI_MESSAGE
 
       - name: Push README to dockerhub description
         run: |
