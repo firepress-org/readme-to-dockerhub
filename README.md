@@ -1,9 +1,9 @@
 README to Docker Hub
 ===
 
-[![MadIRC #Admins](https://img.shields.io/badge/MadIRC-%23Admins-green.svg)](https://webclient.madirc.net/?join=%23Admins)
 
-This is a quick hack to push README.md files to Docker hub.
+
+Push README.md files to Docker hub.
 
 
 # How to use?
@@ -12,14 +12,14 @@ Simply build the image using `docker build -t readme-to-hub .`
 
 and run it with all needed parameter:
 
-```console
+```
 docker run --rm \
-    -v /path/to/readme.md:/data/README.md \
-    -e DOCKERHUB_USERNAME=myhubuser \
-    -e DOCKERHUB_PASSWORD=myhubpassword \
-    -e DOCKERHUB_REPO_PREFIX=myorga \
-    -e DOCKERHUB_REPO_NAME=myrepo \
-     readme-to-hub
+  -v $(pwd)/README.md:/data/README.md \
+  -e DOCKERHUB_USERNAME="devmtl" \
+  -e DOCKERHUB_PASSWORD="${DOCKERHUB_PASSWORD}" \
+  -e DOCKERHUB_REPO_PREFIX="devmtl" \
+  -e DOCKERHUB_REPO_NAME="noti" \
+  devmtl/readme-dockerhub:stable
 ```
 
 That's it.
