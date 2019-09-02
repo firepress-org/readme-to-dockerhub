@@ -141,11 +141,11 @@ jobs:
       - name: Notify on Slack
         run: |
           docker run --rm \
-            -e NOTI_MESSAGE=$(cat NOTI_MESSAGE) \
-            devmtl/noti:stable sh -c \
-            ' NOTI_SLACK_TOKEN=$(cat ${TOKEN_SLACK}) \
-              NOTI_SLACK_CHANNEL="cron" \
-              noti -k -m "$NOTI_MESSAGE" '
+            devmtl/noti:stable \
+            sh -c \
+            'NOTI_SLACK_TOKEN=$(cat ${TOKEN_SLACK}) \
+            NOTI_SLACK_CHANNEL=github-actions \
+            noti -k -m $(cat NOTI_MESSAGE)'
 
   Job3:
     needs: job1
