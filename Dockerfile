@@ -1,4 +1,4 @@
-ARG VERSION="1.0"
+ARG VERSION="0.1"
 ARG APP_NAME="readme-to-dockerhub"
 ARG USER="root"
 ARG ALPINE_VERSION="12-alpine"
