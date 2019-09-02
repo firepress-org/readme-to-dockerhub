@@ -124,6 +124,9 @@ jobs:
         run: |
           echo "devmtl" > DOCKERHUB_USER
           cat Dockerfile | grep APP_NAME= | head -n 1 | grep -o '".*"' | sed 's/"//g' > APP_NAME
+          cat Dockerfile | grep VERSION= | head -n 1 | grep -o '".*"' | sed 's/"//g' > VERSION
+          git rev-parse --short HEAD > SHORT_COMMIT_HASH
+          echo "CI says $(cat APP_NAME):$(cat VERSION) $(cat SHORT_COMMIT_HASH)" > NOTI_MESSAGE
 
       - name: Push README to dockerhub description
         run: |
@@ -135,6 +138,15 @@ jobs:
             -e DOCKERHUB_REPO_NAME=$(cat APP_NAME) \
             devmtl/readme-to-dockerhub:stable
 
+      - name: Notify on Slack
+        run: |
+          docker run --rm \
+            -e NOTI_MESSAGE=$(cat NOTI_MESSAGE) \
+            devmtl/noti:stable sh -c \
+            ' NOTI_SLACK_TOKEN=$(cat ${TOKEN_SLACK}) \
+              NOTI_SLACK_CHANNEL="cron" \
+              noti -k -m "$NOTI_MESSAGE" '
+
   Job3:
     needs: job1
     name: Job 3/3
@@ -142,10 +154,11 @@ jobs:
     steps:
       - uses: actions/checkout@master
 
-      - name: Afterbuild (brainstorm & use cases)
+      - name: Afterbuild (ToDo, brainstorm, use cases)
         run: |
           echo " "
-          # echo "brainstorm/ notify succes on slack"
-          # echo "brainstorm/ push a webhook to our cluster. The CD part of CI/CD"
-          # echo "brainstorm/ SSH on on node to do X"
-          # echo "brainstorm/ For webapps, do an healthcheck in prod cluster"
+          # Push a webhook to our cluster. The CD part of CI/CD"
+          #     ...or SSH on on node to do X"
+          #     ... For webapps, do an healthcheck in prod cluster"
+          # rule/ Master branch = push 4 tag / if not master branch push only tag edge
+          # Find a efficient way to push tags
