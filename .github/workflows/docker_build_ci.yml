@@ -142,11 +142,23 @@ jobs:
       - name: Notify on Slack
         run: |
           docker run --rm \
-            devmtl/noti:stable \
-            sh -c \
-            'NOTI_SLACK_TOKEN="$(cat ${TOKEN_SLACK})" \
-            NOTI_SLACK_CHANNEL="github-actions" \
-            noti -k -m "$(cat NOTI_MESSAGE)"'
+            --name noti \
+            -e NOTI_MESSAGE="$(cat NOTI_MESSAGE)" \
+            -e SLACK_CHANNEL="github-actions" \
+            -e SLACK_TOKEN_CRON="${{ secrets.TOKEN_SLACK }}" \
+            "$IMG_noti" sh -c \
+            ' NOTI_SLACK_TOKEN="$SLACK_TOKEN_CRON" \
+              NOTI_SLACK_CHANNEL="$SLACK_CHANNEL" \
+              noti -k -m "$NOTI_MESSAGE" '
+
+      #- name: Notify on Slack
+      #  run: |
+      #    docker run --rm \
+      #      devmtl/noti:stable \
+      #      sh -c \
+      #      'NOTI_SLACK_TOKEN=${{ secrets.TOKEN_SLACK }} \
+      #      NOTI_SLACK_CHANNEL="github-actions" \
+      #      noti -k -m "$(cat NOTI_MESSAGE)"'
 
   Job3:
     needs: job1
@@ -163,3 +175,4 @@ jobs:
           #     ... For webapps, do an healthcheck in prod cluster"
           # rule/ Master branch = push 4 tag / if not master branch push only tag edge
           # Find a efficient way to push tags
+          # On build failure, send on notification to Slack
