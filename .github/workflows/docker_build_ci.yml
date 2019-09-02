@@ -146,7 +146,7 @@ jobs:
             -e NOTI_MESSAGE="$(cat NOTI_MESSAGE)" \
             -e SLACK_CHANNEL="github-actions" \
             -e SLACK_TOKEN_CRON="${{ secrets.TOKEN_SLACK }}" \
-            "$IMG_noti" sh -c \
+            devmtl/noti:stable sh -c \
             ' NOTI_SLACK_TOKEN="$SLACK_TOKEN_CRON" \
               NOTI_SLACK_CHANNEL="$SLACK_CHANNEL" \
               noti -k -m "$NOTI_MESSAGE" '
