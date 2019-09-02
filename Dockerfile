@@ -5,13 +5,8 @@ ARG ALPINE_VERSION="12.9-alpine"
 ARG GIT_REPO_DOCKERFILE="https://github.com/firepress-org/readme-to-dockerhub"
 ARG GIT_REPO_SOURCE="same"
 
-FROM node:${ALPINE_VERSION}
-
+FROM node:12.9-alpine
 COPY index.js package*.json /app/
-
 WORKDIR /app/
-
 RUN npm install
-
-ENTRYPOINT ["node" ]
-CMD ["/app/index.js"]
+ENTRYPOINT ["node", "/app/index.js"]
